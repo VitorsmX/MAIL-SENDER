@@ -1,10 +1,10 @@
+import { processForm } from '../serverless-forms/lib/post.js'; // ajuste o caminho conforme sua estrutura
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.setHeader('Allow', 'POST');
     return res.status(405).end('Método não permitido');
   }
-
-  const { processForm } = await import('../../serverless-forms/lib/post.js');
 
   const options = {
     to: process.env.TO,
