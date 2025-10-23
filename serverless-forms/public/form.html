@@ -388,6 +388,7 @@
           statusMessage.textContent =
             "❌ Ocorreu um erro ao enviar. Tente novamente em instantes.";
           statusMessage.className = "error";
+          console.log(err)
         } finally {
           // Reabilita campos ocultos após envio
           camposOcultos.forEach((el) => el.disabled = false);
