@@ -1,4 +1,4 @@
-import { processForm } from '../lib/post';
+import { processForm } from '../serverless-forms/lib/post';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
