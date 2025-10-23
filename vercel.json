@@ -1,8 +1,7 @@
 {
-    "functions": {
-      "api/send.js": {
-        "runtime": "nodejs"
-      }
+  "functions": {
+    "api/send.js": {
+      "runtime": "nodejs22.x"
     }
+  }
 }
-  
