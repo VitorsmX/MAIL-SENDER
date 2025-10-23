@@ -1,7 +1,7 @@
 {
     "functions": {
       "api/send.js": {
-        "runtime": "node@20.x"
+        "runtime": "nodejs"
       }
     }
 }
