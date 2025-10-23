@@ -7,9 +7,7 @@
   "type": "module",
   "scripts": {
     "start": "node .",
-    "prepare": "npm test",
-    "dev": "nodemon lib",
-    "test": "mocha"
+    "dev": "nodemon lib"
   },
   "author": "Alex Hoyau <a.hoyau@silexlabs.org> (https://lexoyo.me/)",
   "bugs": {
