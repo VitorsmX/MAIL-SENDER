@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Solicitação Cellent - Usuário ou Unidade</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background-color: #f7f9fb;
+        margin: 0;
+        padding: 0;
+      }
+
+      header {
+        background-color: #005baa;
+        color: white;
+        text-align: center;
+        padding: 20px;
+      }
+
+      main {
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      form {
+        background-color: white;
+        max-width: 650px;
+        width: 100%;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        position: relative;
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #005baa;
+      }
+
+      h3 {
+        color: #333;
+        margin-top: 30px;
+        border-bottom: 2px solid #005baa;
+        padding-bottom: 5px;
+      }
+
+      label {
+        font-weight: bold;
+        display: block;
+        margin-top: 15px;
+        color: #333;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        border-color: #005baa;
+        outline: none;
+      }
+
+      small {
+        display: block;
+        color: #666;
+        font-size: 12px;
+        margin-top: 3px;
+      }
+
+      button {
+        background-color: #005baa;
+        color: white;
+        border: none;
+        padding: 12px 20px;
+        font-size: 16px;
+        border-radius: 8px;
+        margin-top: 30px;
+        cursor: pointer;
+        width: 100%;
+      }
+
+      button:hover {
+        background-color: #004b8a;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      /* Mensagem de feedback */
+      #statusMessage {
+        text-align: center;
+        margin-top: 15px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+      }
+
+      #statusMessage.success {
+        color: #0a7a29;
+      }
+
+      #statusMessage.error {
+        color: #d63333;
+      }
+
+      @media (max-width: 600px) {
+        form {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Formulário de Solicitação - Cellent</h1>
+    </header>
+
+    <main>
+      <form id="formCellent" method="post" enctype="multipart/form-data">
+        <h2>Selecione o tipo de solicitação</h2>
+
+        <label for="tipoFormulario">Tipo de Formulário *</label>
+        <select id="tipoFormulario" name="tipoFormulario" required>
+          <option value="usuario">Criação / Exclusão de Usuário</option>
+          <option value="unidade">Criação de Unidade</option>
+        </select>
+        <small>Escolha o tipo de solicitação que deseja enviar.</small>
+
+        <!-- ===================== FORMULÁRIO DE USUÁRIO ===================== -->
+        <div id="formUsuario">
+          <h3>Dados do Solicitante</h3>
+
+          <label for="tipoSolicitacao">Tipo de Solicitação *</label>
+          <select id="tipoSolicitacao" name="tipoSolicitacao" required>
+            <option value="INCLUSÃO DE LOGIN">Inclusão de Login</option>
+            <option value="EXCLUSÃO DE ACESSO">Exclusão de Acesso</option>
+          </select>
+
+          <label for="nomeSolicitante">Nome Completo do Solicitante *</label>
+          <input id="nomeSolicitante" name="nomeSolicitante" type="text" required />
+
+          <label for="unidadeSolicitante">Unidade Solicitante (Nome e CNES) *</label>
+          <input id="unidadeSolicitante" name="unidadeSolicitante" type="text" required />
+
+          <label for="emailSolicitante">E-mail do Solicitante *</label>
+          <input id="emailSolicitante" name="emailSolicitante" type="email" required />
+
+          <label for="telefoneSolicitante">Telefone / Celular do Solicitante *</label>
+          <input id="telefoneSolicitante" name="telefoneSolicitante" type="tel" required />
+
+          <h3>Dados do Profissional</h3>
+
+          <label for="nomeCompleto">Nome Completo *</label>
+          <input id="nomeCompleto" name="nomeCompleto" type="text" required />
+
+          <label for="dataNascimento">Data de Nascimento *</label>
+          <input id="dataNascimento" name="dataNascimento" type="date" required />
+
+          <label for="cpf">CPF *</label>
+          <input id="cpf" name="cpf" type="text" placeholder="Ex: 999.999.999-99" required />
+
+          <label for="email">E-mail do Profissional *</label>
+          <input id="email" name="email" type="email" required />
+
+          <label for="telefone">Telefone / Contato do Profissional</label>
+          <input id="telefone" name="telefone" type="tel" placeholder="Ex: (91) 99999-9999" />
+
+          <label for="funcao">Função e Especialidade *</label>
+          <input id="funcao" name="funcao" type="text" required />
+
+          <label for="permissao">Permissão (Perfil de Acesso) *</label>
+          <input id="permissao" name="permissao" type="text" required />
+
+          <label for="cidade">Cidade / Estado *</label>
+          <input id="cidade" name="cidade" type="text" required />
+
+          <label for="unidade">Unidade *</label>
+          <input id="unidade" name="unidade" type="text" required />
+
+          <label for="sistema">Sistema / Módulo *</label>
+          <input id="sistema" name="sistema" type="text" required />
+
+          <label for="observacoes">Observações adicionais</label>
+          <textarea id="observacoes" name="observacoes" rows="4"></textarea>
+        </div>
+
+        <!-- ===================== FORMULÁRIO DE UNIDADE ===================== -->
+        <div id="formUnidade" class="hidden">
+          <h3>Dados do Solicitante</h3>
+
+          <label for="nomeSolicitanteU">Nome Completo do Solicitante *</label>
+          <input id="nomeSolicitanteU" name="nomeSolicitanteU" type="text" required />
+
+          <label for="unidadeSolicitanteU">Unidade Solicitante (Nome e CNES) *</label>
+          <input id="unidadeSolicitanteU" name="unidadeSolicitanteU" type="text" required />
+
+          <label for="emailSolicitanteU">E-mail do Solicitante *</label>
+          <input id="emailSolicitanteU" name="emailSolicitanteU" type="email" required />
+
+          <label for="telefoneSolicitanteU">Telefone / Celular do Solicitante *</label>
+          <input id="telefoneSolicitanteU" name="telefoneSolicitanteU" type="tel" required />
+
+          <h3>Dados da Unidade a Ser Criada</h3>
+
+          <label for="emailUnidade">E-mail da Unidade *</label>
+          <input id="emailUnidade" name="emailUnidade" type="email" required />
+
+          <label for="cidadeU">Cidade / Estado *</label>
+          <input id="cidadeU" name="cidadeU" type="text" required />
+
+          <label for="unidadeNova">Nome da Unidade (Nome e CNES) *</label>
+          <input id="unidadeNova" name="unidadeNova" type="text" required />
+
+          <label for="sistemaU">Sistema / Módulo *</label>
+          <input id="sistemaU" name="sistemaU" type="text" required />
+        </div>
+
+        <input type="hidden" name="token" value="CjVEFzAbx" />
+
+        <button type="submit">Enviar Solicitação</button>
+        <p id="statusMessage"></p>
+      </form>
+    </main>
+
+    <script>
+      const tipoFormulario = document.getElementById("tipoFormulario");
+      const formUsuario = document.getElementById("formUsuario");
+      const formUnidade = document.getElementById("formUnidade");
+      const formCellent = document.getElementById("formCellent");
+      const statusMessage = document.getElementById("statusMessage");
+
+      tipoFormulario.addEventListener("change", () => {
+        if (tipoFormulario.value === "unidade") {
+          formUsuario.classList.add("hidden");
+          formUnidade.classList.remove("hidden");
+        } else {
+          formUnidade.classList.add("hidden");
+          formUsuario.classList.remove("hidden");
+        }
+      });
+
+      const requestLimit = {
+        count: 0,
+        max: 10,
+        resetInterval: 60000,
+      };
+
+      setInterval(() => (requestLimit.count = 0), requestLimit.resetInterval);
+
+      formCellent.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        if (requestLimit.count >= requestLimit.max) {
+          statusMessage.textContent =
+            "⚠️ Limite de solicitações atingido. Aguarde um minuto antes de tentar novamente.";
+          statusMessage.className = "error";
+          return;
+        }
+
+        requestLimit.count++;
+
+        const formData = new FormData(formCellent);
+
+        try {
+          const response = await fetch(formCellent.action || window.location.href, {
+            method: "POST",
+            body: formData,
+          });
+
+          if (response.ok) {
+            statusMessage.textContent = "✅ Solicitação enviada com sucesso!";
+            statusMessage.className = "success";
+            formCellent.reset();
+            tipoFormulario.value = "usuario";
+            formUsuario.classList.remove("hidden");
+            formUnidade.classList.add("hidden");
+          } else {
+            throw new Error("Erro no envio.");
+          }
+        } catch (err) {
+          statusMessage.textContent =
+            "❌ Ocorreu um erro ao enviar. Tente novamente em instantes.";
+          statusMessage.className = "error";
+        }
+      });
+    </script>
+  </body>
+</html>

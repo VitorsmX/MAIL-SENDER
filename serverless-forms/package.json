@@ -1,0 +1,50 @@
+{
+  "name": "serverless-form",
+  "version": "1.0.22",
+  "description": "",
+  "main": "lib/index.js",
+  "module": "lib/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node .",
+    "prepare": "npm test",
+    "dev": "nodemon lib",
+    "test": "mocha"
+  },
+  "author": "Alex Hoyau <a.hoyau@silexlabs.org> (https://lexoyo.me/)",
+  "bugs": {
+    "url": "https://github.com/lexoyo/email-form-data/issues"
+  },
+  "homepage": "https://github.com/lexoyo/email-form-data",
+  "license": "GPL",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lexoyo/email-form-data.git"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.1.0",
+    "formidable": "1.1.1",
+    "node-fetch": "^3.3.2",
+    "nodemailer": "4.0.1"
+  },
+  "keywords": [
+    "email",
+    "serverless",
+    "1 click deploy",
+    "backend",
+    "API",
+    "HTML form",
+    "custom form",
+    "contact form",
+    "email capture form",
+    "static site",
+    "static"
+  ],
+  "devDependencies": {
+    "maildev": "^2.1.0",
+    "mocha": "^10.8.2",
+    "nodemon": "^3.1.7"
+  }
+}
