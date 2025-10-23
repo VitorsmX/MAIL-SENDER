@@ -1,7 +1,7 @@
-import express from "express";
-import fs from "fs/promises";
-import rateLimit from "express-rate-limit";
-import { processForm } from "./post.js";
+const express = await import("express");
+const fs = await import("fs").promises;
+const rateLimit = await import("express-rate-limit");
+const { processForm } = await import("./post.js");
 
 /**
  * Inicializa o servidor Express mantendo compatibilidade
