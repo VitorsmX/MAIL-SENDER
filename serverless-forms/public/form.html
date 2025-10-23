@@ -150,16 +150,40 @@
           </select>
 
           <label for="nomeSolicitante">Nome Completo do Solicitante *</label>
-          <input id="nomeSolicitante" name="nomeSolicitante" type="text" required />
+          <input
+            id="nomeSolicitante"
+            name="nomeSolicitante"
+            type="text"
+            required
+          />
 
-          <label for="unidadeSolicitante">Unidade Solicitante (Nome e CNES) *</label>
-          <input id="unidadeSolicitante" name="unidadeSolicitante" type="text" required />
+          <label for="unidadeSolicitante"
+            >Unidade Solicitante (Nome e CNES) *</label
+          >
+          <input
+            id="unidadeSolicitante"
+            name="unidadeSolicitante"
+            type="text"
+            required
+          />
 
           <label for="emailSolicitante">E-mail do Solicitante *</label>
-          <input id="emailSolicitante" name="emailSolicitante" type="email" required />
+          <input
+            id="emailSolicitante"
+            name="emailSolicitante"
+            type="email"
+            required
+          />
 
-          <label for="telefoneSolicitante">Telefone / Celular do Solicitante *</label>
-          <input id="telefoneSolicitante" name="telefoneSolicitante" type="tel" required />
+          <label for="telefoneSolicitante"
+            >Telefone / Celular do Solicitante *</label
+          >
+          <input
+            id="telefoneSolicitante"
+            name="telefoneSolicitante"
+            type="tel"
+            required
+          />
 
           <h3>Dados do Profissional</h3>
 
@@ -167,16 +191,32 @@
           <input id="nomeCompleto" name="nomeCompleto" type="text" required />
 
           <label for="dataNascimento">Data de Nascimento *</label>
-          <input id="dataNascimento" name="dataNascimento" type="date" required />
+          <input
+            id="dataNascimento"
+            name="dataNascimento"
+            type="date"
+            required
+          />
 
           <label for="cpf">CPF *</label>
-          <input id="cpf" name="cpf" type="text" placeholder="Ex: 999.999.999-99" required />
+          <input
+            id="cpf"
+            name="cpf"
+            type="text"
+            placeholder="Ex: 999.999.999-99"
+            required
+          />
 
           <label for="email">E-mail do Profissional *</label>
           <input id="email" name="email" type="email" required />
 
           <label for="telefone">Telefone / Contato do Profissional</label>
-          <input id="telefone" name="telefone" type="tel" placeholder="Ex: (91) 99999-9999" />
+          <input
+            id="telefone"
+            name="telefone"
+            type="tel"
+            placeholder="Ex: (91) 99999-9999"
+          />
 
           <label for="funcao">Função e Especialidade *</label>
           <input id="funcao" name="funcao" type="text" required />
@@ -202,16 +242,40 @@
           <h3>Dados do Solicitante</h3>
 
           <label for="nomeSolicitanteU">Nome Completo do Solicitante *</label>
-          <input id="nomeSolicitanteU" name="nomeSolicitanteU" type="text" required />
+          <input
+            id="nomeSolicitanteU"
+            name="nomeSolicitanteU"
+            type="text"
+            required
+          />
 
-          <label for="unidadeSolicitanteU">Unidade Solicitante (Nome e CNES) *</label>
-          <input id="unidadeSolicitanteU" name="unidadeSolicitanteU" type="text" required />
+          <label for="unidadeSolicitanteU"
+            >Unidade Solicitante (Nome e CNES) *</label
+          >
+          <input
+            id="unidadeSolicitanteU"
+            name="unidadeSolicitanteU"
+            type="text"
+            required
+          />
 
           <label for="emailSolicitanteU">E-mail do Solicitante *</label>
-          <input id="emailSolicitanteU" name="emailSolicitanteU" type="email" required />
+          <input
+            id="emailSolicitanteU"
+            name="emailSolicitanteU"
+            type="email"
+            required
+          />
 
-          <label for="telefoneSolicitanteU">Telefone / Celular do Solicitante *</label>
-          <input id="telefoneSolicitanteU" name="telefoneSolicitanteU" type="tel" required />
+          <label for="telefoneSolicitanteU"
+            >Telefone / Celular do Solicitante *</label
+          >
+          <input
+            id="telefoneSolicitanteU"
+            name="telefoneSolicitanteU"
+            type="tel"
+            required
+          />
 
           <h3>Dados da Unidade a Ser Criada</h3>
 
@@ -241,61 +305,94 @@
       const formUnidade = document.getElementById("formUnidade");
       const formCellent = document.getElementById("formCellent");
       const statusMessage = document.getElementById("statusMessage");
-
-      tipoFormulario.addEventListener("change", () => {
-        if (tipoFormulario.value === "unidade") {
-          formUsuario.classList.add("hidden");
-          formUnidade.classList.remove("hidden");
-        } else {
-          formUnidade.classList.add("hidden");
-          formUsuario.classList.remove("hidden");
-        }
+    
+      // Marca os campos originalmente obrigatórios
+      document.querySelectorAll("[required]").forEach((el) => {
+        el.setAttribute("data-required", "true");
       });
-
+    
+      // Alterna visibilidade e obrigatoriedade dos campos
+      function alternarFormulario() {
+        const tipo = tipoFormulario.value;
+    
+        const mostrar = tipo === "usuario" ? formUsuario : formUnidade;
+        const ocultar = tipo === "usuario" ? formUnidade : formUsuario;
+    
+        mostrar.classList.remove("hidden");
+        ocultar.classList.add("hidden");
+    
+        // Atualiza atributos required
+        ocultar.querySelectorAll("[required]").forEach((el) => {
+          el.removeAttribute("required");
+        });
+    
+        mostrar.querySelectorAll("input, select, textarea").forEach((el) => {
+          if (el.hasAttribute("data-required")) {
+            el.setAttribute("required", "true");
+          }
+        });
+      }
+    
+      tipoFormulario.addEventListener("change", alternarFormulario);
+      alternarFormulario(); // Estado inicial
+    
+      // Proteção contra spam
       const requestLimit = {
         count: 0,
         max: 10,
         resetInterval: 60000,
       };
-
       setInterval(() => (requestLimit.count = 0), requestLimit.resetInterval);
-
+    
       formCellent.addEventListener("submit", async (e) => {
         e.preventDefault();
-
+    
         if (requestLimit.count >= requestLimit.max) {
           statusMessage.textContent =
             "⚠️ Limite de solicitações atingido. Aguarde um minuto antes de tentar novamente.";
           statusMessage.className = "error";
           return;
         }
-
+    
         requestLimit.count++;
-
+    
+        // Desabilita campos ocultos antes do envio
+        const tipo = tipoFormulario.value;
+        const camposOcultos =
+          tipo === "usuario"
+            ? formUnidade.querySelectorAll("input, select, textarea")
+            : formUsuario.querySelectorAll("input, select, textarea");
+    
+        camposOcultos.forEach((el) => el.disabled = true);
+    
         const formData = new FormData(formCellent);
-
+    
         try {
           const response = await fetch(formCellent.action || window.location.href, {
             method: "POST",
             body: formData,
           });
-
+    
           if (response.ok) {
+            alert("✅ Solicitação enviada com sucesso!");
             statusMessage.textContent = "✅ Solicitação enviada com sucesso!";
             statusMessage.className = "success";
             formCellent.reset();
             tipoFormulario.value = "usuario";
-            formUsuario.classList.remove("hidden");
-            formUnidade.classList.add("hidden");
+            alternarFormulario();
           } else {
             throw new Error("Erro no envio.");
           }
         } catch (err) {
+          alert("❌ Ocorreu um erro ao enviar. Tente novamente em instantes.");
           statusMessage.textContent =
             "❌ Ocorreu um erro ao enviar. Tente novamente em instantes.";
           statusMessage.className = "error";
+        } finally {
+          // Reabilita campos ocultos após envio
+          camposOcultos.forEach((el) => el.disabled = false);
         }
       });
-    </script>
+    </script>    
   </body>
 </html>

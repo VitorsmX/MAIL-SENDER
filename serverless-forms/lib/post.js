@@ -5,7 +5,44 @@ import { sendHook } from './hook.js';
 function generateEmailBody(fields, referer, options) {
   const tipoFormulario = fields.tipoFormulario || 'usuario';
 
-  // ======== TEMPLATE PARA SOLICITAÇÃO DE USUÁRIO ========
+  const camposIgnorados = {
+    usuario: [
+      'token', 'thanks', 'site', 'tipoFormulario', 'tipoSolicitacao',
+      'nomeSolicitante', 'unidadeSolicitante', 'emailSolicitante', 'telefoneSolicitante',
+      'nomeSolicitanteU', 'unidadeSolicitanteU', 'emailSolicitanteU', 'telefoneSolicitanteU'
+    ],
+    unidade: [
+      'token', 'thanks', 'site', 'tipoFormulario',
+      'nomeSolicitanteU', 'unidadeSolicitanteU', 'emailSolicitanteU', 'telefoneSolicitanteU',
+      'nomeSolicitante', 'unidadeSolicitante', 'emailSolicitante', 'telefoneSolicitante', 'tipoSolicitacao'
+    ]
+  };
+
+  const camposValidos = Object.keys(fields)
+    .filter(f =>
+      !camposIgnorados[tipoFormulario].includes(f) &&
+      fields[f] !== undefined &&
+      fields[f] !== null &&
+      fields[f].toString().trim() !== ''
+    );
+
+  const gerarLinhasTabela = camposValidos.map(f => `
+    <tr>
+      <td style="padding:8px; border-bottom:1px solid #ddd; width:35%;"><b>${f}</b></td>
+      <td style="padding:8px; border-bottom:1px solid #ddd;">${fields[f]}</td>
+    </tr>
+  `).join('');
+
+  const rodapeSistema = `
+    <p style="margin-top:20px; font-size:12px; color:#999;">
+      Este e-mail foi gerado automaticamente pelo sistema de solicitações da Cellent.
+    </p>
+  `;
+
+  const disclaimer = options?.disclaimer
+    ? `<p style="font-size:12px; color:#888;">${options.disclaimer}</p>`
+    : '';
+
   if (tipoFormulario === 'usuario') {
     return `
       <div style="font-family:Arial, sans-serif; background-color:#f4f6f8; padding:20px;">
@@ -27,22 +64,7 @@ function generateEmailBody(fields, referer, options) {
         <div style="background:#ffffff; padding:15px 20px; border-radius:8px;">
           <h3 style="color:#005baa; border-bottom:1px solid #ccc;">👤 Dados do Profissional</h3>
           <table style="width:100%; border-collapse:collapse;">
-            <tbody>
-              ${Object.keys(fields)
-                .filter(f =>
-                  ![
-                    'token','thanks','site','tipoFormulario','tipoSolicitacao',
-                    'nomeSolicitante','unidadeSolicitante','emailSolicitante','telefoneSolicitante'
-                  ].includes(f)
-                )
-                .map(f => `
-                  <tr>
-                    <td style="padding:8px; border-bottom:1px solid #ddd; width:35%;"><b>${f}</b></td>
-                    <td style="padding:8px; border-bottom:1px solid #ddd;">${fields[f]}</td>
-                  </tr>
-                `)
-                .join('')}
-            </tbody>
+            <tbody>${gerarLinhasTabela}</tbody>
           </table>
         </div>
 
@@ -50,20 +72,12 @@ function generateEmailBody(fields, referer, options) {
           Esta solicitação deve ser validada pelo administrador responsável da unidade.
         </p>
 
-        ${
-          options?.disclaimer
-            ? `<p style="font-size:12px; color:#888;">${options.disclaimer}</p>`
-            : ''
-        }
-
-        <p style="margin-top:20px; font-size:12px; color:#999;">
-          Este e-mail foi gerado automaticamente pelo sistema de solicitações da Cellent.
-        </p>
+        ${disclaimer}
+        ${rodapeSistema}
       </div>
     `;
   }
 
-  // ======== TEMPLATE PARA SOLICITAÇÃO DE UNIDADE ========
   if (tipoFormulario === 'unidade') {
     return `
       <div style="font-family:Arial, sans-serif; background-color:#f4f6f8; padding:20px;">
@@ -85,22 +99,7 @@ function generateEmailBody(fields, referer, options) {
         <div style="background:#ffffff; padding:15px 20px; border-radius:8px;">
           <h3 style="color:#005baa; border-bottom:1px solid #ccc;">🏢 Dados da Unidade a Ser Criada</h3>
           <table style="width:100%; border-collapse:collapse;">
-            <tbody>
-              ${Object.keys(fields)
-                .filter(f =>
-                  ![
-                    'token','thanks','site','tipoFormulario',
-                    'nomeSolicitanteU','unidadeSolicitanteU','emailSolicitanteU','telefoneSolicitanteU'
-                  ].includes(f)
-                )
-                .map(f => `
-                  <tr>
-                    <td style="padding:8px; border-bottom:1px solid #ddd; width:35%;"><b>${f}</b></td>
-                    <td style="padding:8px; border-bottom:1px solid #ddd;">${fields[f]}</td>
-                  </tr>
-                `)
-                .join('')}
-            </tbody>
+            <tbody>${gerarLinhasTabela}</tbody>
           </table>
         </div>
 
@@ -108,15 +107,15 @@ function generateEmailBody(fields, referer, options) {
           Esta solicitação refere-se à criação de uma nova unidade no sistema.
         </p>
 
-        <p style="margin-top:20px; font-size:12px; color:#999;">
-          Este e-mail foi gerado automaticamente pelo sistema de solicitações da Cellent.
-        </p>
+        ${disclaimer}
+        ${rodapeSistema}
       </div>
     `;
   }
 
   return '<p>Erro: Tipo de formulário desconhecido.</p>';
 }
+
 
 
 // get the email addresses from the `TO` env var
