@@ -305,37 +305,37 @@
       const formUnidade = document.getElementById("formUnidade");
       const formCellent = document.getElementById("formCellent");
       const statusMessage = document.getElementById("statusMessage");
-    
+
       // Marca os campos originalmente obrigatórios
       document.querySelectorAll("[required]").forEach((el) => {
         el.setAttribute("data-required", "true");
       });
-    
+
       // Alterna visibilidade e obrigatoriedade dos campos
       function alternarFormulario() {
         const tipo = tipoFormulario.value;
-    
+
         const mostrar = tipo === "usuario" ? formUsuario : formUnidade;
         const ocultar = tipo === "usuario" ? formUnidade : formUsuario;
-    
+
         mostrar.classList.remove("hidden");
         ocultar.classList.add("hidden");
-    
+
         // Atualiza atributos required
         ocultar.querySelectorAll("[required]").forEach((el) => {
           el.removeAttribute("required");
         });
-    
+
         mostrar.querySelectorAll("input, select, textarea").forEach((el) => {
           if (el.hasAttribute("data-required")) {
             el.setAttribute("required", "true");
           }
         });
       }
-    
+
       tipoFormulario.addEventListener("change", alternarFormulario);
       alternarFormulario(); // Estado inicial
-    
+
       // Proteção contra spam
       const requestLimit = {
         count: 0,
@@ -343,36 +343,36 @@
         resetInterval: 60000,
       };
       setInterval(() => (requestLimit.count = 0), requestLimit.resetInterval);
-    
+
       formCellent.addEventListener("submit", async (e) => {
         e.preventDefault();
-    
+
         if (requestLimit.count >= requestLimit.max) {
           statusMessage.textContent =
             "⚠️ Limite de solicitações atingido. Aguarde um minuto antes de tentar novamente.";
           statusMessage.className = "error";
           return;
         }
-    
+
         requestLimit.count++;
-    
+
         // Desabilita campos ocultos antes do envio
         const tipo = tipoFormulario.value;
         const camposOcultos =
           tipo === "usuario"
             ? formUnidade.querySelectorAll("input, select, textarea")
             : formUsuario.querySelectorAll("input, select, textarea");
-    
-        camposOcultos.forEach((el) => el.disabled = true);
-    
+
+        camposOcultos.forEach((el) => (el.disabled = true));
+
         const formData = new FormData(formCellent);
-    
+
         try {
-          const response = await fetch(formCellent.action || window.location.href, {
+          const response = await fetch("/api/send", {
             method: "POST",
             body: formData,
           });
-    
+
           if (response.ok) {
             alert("✅ Solicitação enviada com sucesso!");
             statusMessage.textContent = "✅ Solicitação enviada com sucesso!";
@@ -388,12 +388,12 @@
           statusMessage.textContent =
             "❌ Ocorreu um erro ao enviar. Tente novamente em instantes.";
           statusMessage.className = "error";
-          console.log(err)
+          console.log(err);
         } finally {
           // Reabilita campos ocultos após envio
-          camposOcultos.forEach((el) => el.disabled = false);
+          camposOcultos.forEach((el) => (el.disabled = false));
         }
       });
-    </script>    
+    </script>
   </body>
 </html>
