@@ -1,6 +1,6 @@
 const { sendMail } = await import('./email.js');
 const { sendHook } = await import('./hook.js');
-const { formidable } = await import("formidable")
+const { formidable } = await import("../node_modules/formidable")
 
 function generateEmailBody(fields, referer, options) {
   const tipoFormulario = fields.tipoFormulario || 'usuario';

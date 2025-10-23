@@ -1,4 +1,4 @@
-const fetch = await import("node-fetch");
+const fetch = await import("../node_modules/node-fetch");
 
 export async function sendHook(message, to, reqHeaders, hook, fields, _sent, _response) {
   const { url, headers } = hook;

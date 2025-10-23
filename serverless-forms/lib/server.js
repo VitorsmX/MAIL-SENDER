@@ -1,6 +1,6 @@
-const express = await import("express");
+const express = await import("../node_modules/express");
 const fs = await import("fs").promises;
-const rateLimit = await import("express-rate-limit");
+const rateLimit = await import("../node_modules/express-rate-limit");
 const { processForm } = await import("./post.js");
 
 /**

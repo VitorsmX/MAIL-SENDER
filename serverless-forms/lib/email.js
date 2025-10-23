@@ -1,4 +1,4 @@
-const nodemailer = await import("nodemailer");
+const nodemailer = await import("../node_modules/nodemailer");
 
 function createTransporter(mailOptions) {
   return nodemailer.createTransport({

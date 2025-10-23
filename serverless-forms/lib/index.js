@@ -1,4 +1,4 @@
-await import("dotenv/config");
+await import("../node_modules/dotenv/config");
 const startServer = await import("./server.js");
 
 if (!process.env.EMAIL_HOST || !process.env.EMAIL_PORT || !process.env.EMAIL_USER || !process.env.EMAIL_PASS || !process.env.TO) {
